@@ -1,0 +1,15 @@
+const START_WORK_HOUR = 8;
+const END_WORK_HOUR = 17;
+const LUNCH_START_HOUR = 12;
+const LUNCH_END_HOUR = 13;
+const START_DAY = 1;
+const END_DAY = 5;
+
+export {
+  END_DAY,
+  END_WORK_HOUR,
+  LUNCH_END_HOUR,
+  LUNCH_START_HOUR,
+  START_DAY,
+  START_WORK_HOUR
+};
