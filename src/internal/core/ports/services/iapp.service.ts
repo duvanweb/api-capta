@@ -16,5 +16,5 @@ export abstract class IAppService {
     days: number;
     hours: number;
     date?: string;
-  }): Promise<Date>;
+  }): Promise<{ date: string }>;
 }

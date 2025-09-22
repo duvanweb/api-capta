@@ -1,16 +1,21 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { toZonedTime } from 'date-fns-tz';
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 import { IHolidayClient } from '../../ports/clients/IHoliday.client';
 import { IAppService } from '../../ports/services/iapp.service';
-
 import {
   addWorkingDays,
   addWorkingHours,
   setToPreviousWorkingTime,
 } from '../../utils/working-date.utils';
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 @Injectable()
 export class AppService implements IAppService {
+  private readonly TZ = 'America/Bogota';
+
   constructor(private readonly holidayClient: IHolidayClient) {}
 
   getHello(): string {
@@ -21,22 +26,19 @@ export class AppService implements IAppService {
     days: number;
     hours: number;
     date?: string;
-  }): Promise<Date> {
+  }): Promise<{ date: string }> {
     const { days, hours, date } = params;
     if (days === 0 && hours === 0) {
       throw new BadRequestException('Days and hours cannot both be zero');
     }
 
-    const initialDate = date ? new Date(date) : new Date();
-    console.log(initialDate, new Date());
+    const initialDate = date ? dayjs(date) : dayjs().tz(this.TZ);
 
-    if (isNaN(initialDate.getTime())) {
+    if (!initialDate.isValid()) {
       throw new BadRequestException('Invalid date format');
     }
 
-    const holidays = await this.holidayClient.getHolidays(
-      initialDate.getFullYear(),
-    );
+    const holidays = await this.holidayClient.getHolidays(initialDate.year());
 
     const startDate = setToPreviousWorkingTime(initialDate, holidays);
     console.log(startDate);
@@ -50,6 +52,8 @@ export class AppService implements IAppService {
       responseDate = addWorkingHours(responseDate, hours, holidays);
     }
 
-    return date ? responseDate : toZonedTime(responseDate, 'America/Bogota');
+    return {
+      date: responseDate.tz('UTC').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+    };
   }
 }
