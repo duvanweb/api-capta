@@ -27,10 +27,7 @@ export class AppService implements IAppService {
       throw new BadRequestException('Days and hours cannot both be zero');
     }
 
-    const initialDate = date
-      ? new Date(date)
-      : toZonedTime(new Date(), 'America/Bogota');
-    console.log(initialDate, new Date());
+    const initialDate = date ? new Date(date) : new Date();
 
     if (isNaN(initialDate.getTime())) {
       throw new BadRequestException('Invalid date format');
@@ -51,6 +48,6 @@ export class AppService implements IAppService {
       responseDate = addWorkingHours(responseDate, hours, holidays);
     }
 
-    return responseDate;
+    return toZonedTime(responseDate, 'America/Bogota');
   }
 }
