@@ -1,6 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { toZonedTime } from 'date-fns-tz';
 import { IHolidayClient } from '../../ports/clients/IHoliday.client';
 import { IAppService } from '../../ports/services/iapp.service';
+
 import {
   addWorkingDays,
   addWorkingHours,
@@ -25,7 +27,11 @@ export class AppService implements IAppService {
       throw new BadRequestException('Days and hours cannot both be zero');
     }
 
-    const initialDate = date ? new Date(date) : new Date();
+    const initialDate = date
+      ? new Date(date)
+      : toZonedTime(new Date(), 'America/Bogota');
+    console.log(initialDate, new Date());
+
     if (isNaN(initialDate.getTime())) {
       throw new BadRequestException('Invalid date format');
     }
