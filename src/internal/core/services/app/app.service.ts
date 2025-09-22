@@ -28,6 +28,7 @@ export class AppService implements IAppService {
     }
 
     const initialDate = date ? new Date(date) : new Date();
+    console.log(initialDate, new Date());
 
     if (isNaN(initialDate.getTime())) {
       throw new BadRequestException('Invalid date format');
@@ -38,6 +39,7 @@ export class AppService implements IAppService {
     );
 
     const startDate = setToPreviousWorkingTime(initialDate, holidays);
+    console.log(startDate);
     let responseDate = startDate;
 
     if (days > 0) {
@@ -48,6 +50,6 @@ export class AppService implements IAppService {
       responseDate = addWorkingHours(responseDate, hours, holidays);
     }
 
-    return toZonedTime(responseDate, 'America/Bogota');
+    return date ? responseDate : toZonedTime(responseDate, 'America/Bogota');
   }
 }
