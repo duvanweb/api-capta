@@ -114,14 +114,6 @@ export function addWorkingHours(
       (blockEnd.valueOf() - current.valueOf()) / (1000 * 60 * 60);
     if (hours <= diffHours) {
       current = current.add(hours, 'hour');
-      // Si cae en hora de almuerzo, saltar a la 1:00 p.m.
-      if (current.hour() === LUNCH_START_HOUR) {
-        current = current
-          .hour(LUNCH_END_HOUR)
-          .minute(0)
-          .second(0)
-          .millisecond(0);
-      }
       hours = 0;
     } else {
       current = blockEnd;

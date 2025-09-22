@@ -18,10 +18,6 @@ export class AppService implements IAppService {
 
   constructor(private readonly holidayClient: IHolidayClient) {}
 
-  getHello(): string {
-    return 'Hello World!';
-  }
-
   async calculateWorkingDate(params: {
     days: number;
     hours: number;
