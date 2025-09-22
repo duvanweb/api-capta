@@ -30,6 +30,9 @@
 ```bash
 $ npm install
 ```
+## Configuración inicial
+
+Antes de iniciar el proyecto, debes renombrar el archivo `env.template` a `.env` y configurar las variables de entorno necesarias.
 
 ## Compile and run the project
 
