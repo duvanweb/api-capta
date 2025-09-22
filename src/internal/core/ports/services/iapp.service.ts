@@ -1,10 +1,5 @@
 export abstract class IAppService {
   /**
-   * Returns a greeting message.
-   */
-  abstract getHello(): string;
-
-  /**
    * Calculates a future or past date based on working days and hours, considering holidays.
    * @param date The starting date.
    * @param days The number of working days to add.
