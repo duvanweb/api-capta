@@ -37,7 +37,6 @@ export class AppService implements IAppService {
     const holidays = await this.holidayClient.getHolidays(initialDate.year());
 
     const startDate = setToPreviousWorkingTime(initialDate, holidays);
-    console.log(startDate);
     let responseDate = startDate;
 
     if (days > 0) {
