@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
@@ -15,6 +15,7 @@ dayjs.extend(timezone);
 @Injectable()
 export class AppService implements IAppService {
   private readonly TZ = 'America/Bogota';
+  private readonly logger = new Logger('AppService');
 
   constructor(private readonly holidayClient: IHolidayClient) {}
 
@@ -23,6 +24,8 @@ export class AppService implements IAppService {
     hours: number;
     date?: string;
   }): Promise<{ date: string }> {
+    this.logger.log(`Calculating working date with params: ${JSON.stringify(params)}`);
+
     const { days, hours, date } = params;
     if (days === 0 && hours === 0) {
       throw new BadRequestException('Days and hours cannot both be zero');
