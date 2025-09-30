@@ -4,5 +4,5 @@ export abstract class IHolidayClient {
    * @param year The year for which to fetch holidays.
    * @returns A promise that resolves to an array of holiday dates as strings.
    */
-  abstract getHolidays(year: number): Promise<string[]>;
+  abstract getHolidays(): Promise<string[]>;
 }

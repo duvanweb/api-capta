@@ -34,7 +34,7 @@ export class AppService implements IAppService {
       throw new BadRequestException('Invalid date format');
     }
 
-    const holidays = await this.holidayClient.getHolidays(initialDate.year());
+    const holidays = await this.holidayClient.getHolidays();
 
     const startDate = setToPreviousWorkingTime(initialDate, holidays);
     let responseDate = startDate;
