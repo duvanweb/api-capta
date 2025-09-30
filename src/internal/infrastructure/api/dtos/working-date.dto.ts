@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsNumber, IsOptional, IsPositive, IsString, Matches } from 'class-validator';
+import { IsNumber, IsOptional, IsPositive, IsString, Matches, Max } from 'class-validator';
 
 export class WorkingDateDto {
   @ApiPropertyOptional({
@@ -11,6 +11,7 @@ export class WorkingDateDto {
   @Type(() => Number)
   @IsNumber()
   @IsPositive()
+  @Max(3650, { message: 'No se pueden sumar más de 3650 días' })
   days?: number;
 
   @ApiPropertyOptional({
@@ -21,6 +22,7 @@ export class WorkingDateDto {
   @Type(() => Number)
   @IsNumber()
   @IsPositive()
+  @Max(87600, { message: 'No se pueden sumar más de 87600 horas' })
   hours?: number;
 
   @ApiPropertyOptional({
